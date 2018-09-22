@@ -5,6 +5,9 @@ import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketTimeoutException;
 import java.util.Random;
 import java.util.Scanner;
@@ -149,36 +152,41 @@ public class Lixeira implements Runnable {
 	    }
 
 	   public static void main(String[] args) throws Exception {
-
-	       System.out.println("Iniciando cliente ...");
-
-	       System.out.println("Iniciando conex�o com o servidor ...");
-
-	       Lixeira cliente = new Lixeira("localhost", 2525);
-
-	       System.out.println("Conex�o estabelecida com sucesso ...");
-
-	       cliente.start();
-
-	       Scanner scanner = new Scanner(System.in);
-	       int val = 0;
-
-	       while (true) {	    	   
-	    	   int mensagem = scanner.nextInt();
-	    	   cliente.setNivel(mensagem);                      
-	           val = cliente.getNivel();
-	           cliente.send(val);
-	           Thread.sleep(1000);
-	           
-	           if (!cliente.isExecutando()) {
-	                break;
-	           }	           
-	       }
-	       
-	       System.out.println("Encerrando cliente ...");
-
-	       cliente.stop();
-
+               Random ran = new Random();
+               int val = 0;
+               int novo = 0;
+               
+	        String mensagem = "Cuidado, tem uma mensagem com dois trojans montados em cima dela.";
+		byte[] pegarMensagem =  mensagem.getBytes();
+		int porta = 12345;
+		String ip = "localhost";
+		
+		//acessa o servidor através de um broadCast(?), à medida em que recebe um datagram do servidor. Disso ele extrae o IP dele.
+		try {
+                        novo = ran.nextInt(10);
+                        val = val + novo;
+                        
+                        DatagramSocket cliente = new DatagramSocket();
+			InetAddress endereçoDeIp = InetAddress.getByName(ip); 
+			DatagramPacket pacote = new DatagramPacket(pegarMensagem, pegarMensagem.length, endereçoDeIp, porta); 
+			//o pacote precisa de: DataPacket(bufferDaMensagem, Tamanho da mensagem, o endereço de ip, a porta)
+			
+			cliente.send(pacote);
+			//é o que o cliente envia.	
+			
+			//Recebendo resposta do servidor, sim, da para fazer o cliente escutar.
+			byte[] respostaDoServidor= new byte[1024];
+			DatagramPacket recebendo = new DatagramPacket(respostaDoServidor, respostaDoServidor.length, endereçoDeIp, porta);
+			cliente.receive(recebendo);
+			
+			String ipServidor = recebendo.getAddress().toString();
+			System.out.println(ipServidor);
+			//fechar o client
+			cliente.close();
+		}catch(Exception excecao)
+		{
+			System.out.println(excecao.toString());
+		}
 	      }
 	public int getID() {
 		return ID;

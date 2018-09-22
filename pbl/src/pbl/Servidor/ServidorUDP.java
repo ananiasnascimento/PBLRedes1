@@ -8,28 +8,19 @@ package pbl.Servidor;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-
+import java.io.*;
+import java.net.*;
 /**
  *
  * @author Nias
  */
-public class Central {
-    public static void main(String[] args) throws IOException //psvm ctrl+space	
-    {
-        
-        try {
-			
-		}catch(Exception excecao)
-		{
-			System.out.println(excecao.toString());
-		}
-    }
-    public void tcp() {
-        
-    }
+public class ServidorUDP {
     
-    public void udp() {
-        try {
+
+
+	public static void main(String[] args) throws IOException //psvm ctrl+space	
+	{
+		try {
 			DatagramSocket servidor = new DatagramSocket();
 			byte[] receptor = new byte[1024];
 			
@@ -50,6 +41,7 @@ public class Central {
 		{
 			System.out.println(excecao.toString());
 		}
-	
-    }
+	}
 }
+
+

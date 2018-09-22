@@ -16,10 +16,10 @@ import java.util.Scanner;
  * @author Nias
  */
 public class Caminhao implements Runnable{
-	
-	private int nivel = 0;
-	private int capacidade = 0;
-	private List<Lixeira> lixeiras;
+    private int ID;
+    private int nivel = 0;
+    private int capacidade = 0;
+    private List<Lixeira> lixeiras;
     private Socket socket;
 
     private BufferedReader in;
@@ -37,6 +37,10 @@ public class Caminhao implements Runnable{
        open(endereco, porta);
     }
     
+    public int getiD() {
+    	return ID;
+    }
+    
     public int getNivel() {
     	return nivel;
     }
@@ -52,7 +56,7 @@ public class Caminhao implements Runnable{
     public void setCapacidade(int capacidade) {
     	this.capacidade = capacidade;
     }
-
+    
     private void open(String endereco, int porta) throws Exception{
        try {
            socket = new Socket(endereco, porta); 
@@ -159,26 +163,25 @@ public class Caminhao implements Runnable{
 
        System.out.println("Iniciando cliente ...");
 
-       System.out.println("Iniciando conexão com o servidor ...");
+       System.out.println("Iniciando conexï¿½o com o servidor ...");
 
        Caminhao caminhao = new Caminhao("localhost", 2525);
 
-       System.out.println("Conexãoo estabelecida com sucesso ...");
+       System.out.println("Conexï¿½oo estabelecida com sucesso ...");
 
        caminhao.start();
 
        Scanner scanner = new Scanner(System.in);
 
        while (true) {
-
-           System.out.print("Digite o nivel da lixeira: ");
-           int nivelLixeira = caminhao.getNivel();
-
+           caminhao.send(caminhao.getiD());           
+           caminhao.send(caminhao.getNivel());
+           
            if (!caminhao.isExecutando()) {
                 break;
            }
 
-           caminhao.send(nivelLixeira);
+           
           
        }
 
