@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Nias/Documents/NetBeansProjects/PBLRedes1/pbl/src/pbl/Servidor/Central.java</file>
-            <file>file:/C:/Users/Nias/Documents/NetBeansProjects/PBLRedes1/pbl/src/pbl/Servidor/Atendente.java</file>
-            <file>file:/C:/Users/Nias/Documents/NetBeansProjects/PBLRedes1/pbl/src/pbl/Cliente/Lixeira.java</file>
-            <file>file:/C:/Users/Nias/Documents/NetBeansProjects/PBLRedes1/pbl/src/pbl/Cliente/Caminhao.java</file>
+            <file>file:/C:/Users/Nascimento/Documents/GitHub/PBLRedes1/pbl/src/pbl/Cliente/Caminhao.java</file>
+            <file>file:/C:/Users/Nascimento/Documents/GitHub/PBLRedes1/pbl/src/pbl/Servidor/Central.java</file>
+            <file>file:/C:/Users/Nascimento/Documents/GitHub/PBLRedes1/pbl/src/pbl/Cliente/Lixeira.java</file>
+            <file>file:/C:/Users/Nascimento/Documents/GitHub/PBLRedes1/pbl/src/pbl/Servidor/ServidorUDP.java</file>
         </group>
     </open-files>
 </project-private>

@@ -10,6 +10,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.io.*;
 import java.net.*;
+import java.util.Scanner;
 /**
  *
  * @author Nias
@@ -20,8 +21,12 @@ public class ServidorUDP {
 
 	public static void main(String[] args) throws IOException //psvm ctrl+space	
 	{
+                System.out.println("Servidor On\nEsperando Lixeiras...");
+                Scanner scanner = new Scanner(System.in);
+                DatagramSocket servidor = new DatagramSocket(12345);
+                while(true){
 		try {
-			DatagramSocket servidor = new DatagramSocket();
+			
 			byte[] receptor = new byte[1024];
 			
 			//O pacote que o servidor espera
@@ -30,18 +35,27 @@ public class ServidorUDP {
 			
 			//Mostra na tela a mensagem
 			String mensagemNaTela = new String(bufferRecebimento.getData());
-			System.out.println(mensagemNaTela);
+//                        String[] msg; Fazer o Split.
+//                        msg = mensagemNaTela.split("-");
+//                        msg[0] ;
+//                        msg[1];
+			System.out.println("Recebido quantidade de: " + mensagemNaTela + " da Lixeira");
 			
-			//Envio de pacote como resposta
-			DatagramPacket respostaAoCliente = new DatagramPacket(receptor, receptor.length, bufferRecebimento.getAddress(), bufferRecebimento.getPort());
-			servidor.send(respostaAoCliente);
+//			//Envio de pacote como resposta
+//			DatagramPacket respostaAoCliente = new DatagramPacket(receptor, receptor.length, bufferRecebimento.getAddress(), bufferRecebimento.getPort());
+//			servidor.send(respostaAoCliente);
 			
-			servidor.close();
+			
 		}catch(Exception excecao)
 		{
 			System.out.println(excecao.toString());
 		}
+//                String scan = scanner.next();
+//                if(scan == "Encerrar"){
+//                        servidor.close();
+//                    }
 	}
+        }
 }
 
 

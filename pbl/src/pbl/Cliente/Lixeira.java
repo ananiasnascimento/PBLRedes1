@@ -14,25 +14,40 @@ import java.util.Scanner;
 
 public class Lixeira implements Runnable {
 	private int ID;
-	private int nivel = 0;
-	private int capacidade = 0;
-	
-	public int getNivel() {
+	private double nivel = 0;
+	private double capacidade = 0;
+        
+	public int getID(){
+		return ID;
+	}
+	public void setID(int iD) {
+		ID = iD;
+	}
+	public double getNivel() {
 		return nivel;
 	}
-	public void setNivel(int nivel) {
+	public void setNivel(double nivel) {
 		this.nivel = nivel;
 	}
-	public int getCapacidade() {
+	public double getCapacidade() {
 		return capacidade;
 	}
-	public void setCapacidade(int capacidade) {
+	public void setCapacidade(double capacidade) {
 		this.capacidade = capacidade;
 	}
 	public void esvaziaLixeira() {
 		this.nivel = 0;
 	}
-	
+	public double encherLixeira(double val, double novo){             
+            Random ran = new Random();
+            novo = ran.nextInt(10);
+            val = val + novo;
+            if(val == this.getCapacidade()){
+                System.out.println("Lixeira Cheia. ");
+                return 0.0;
+            }
+            return val;
+        }
 	 	private Socket socket;
 
 	    private BufferedReader in;
@@ -43,11 +58,8 @@ public class Lixeira implements Runnable {
 
 	    private Thread  thread;
 
-	   public Lixeira(String endereco, int porta) throws Exception{
-	       inicializado = false;
-	       executando   = false;
-
-	       open(endereco, porta);
+	   public Lixeira() throws Exception{
+	              
 	    }
 
 	    private void open(String endereco, int porta) throws Exception{
@@ -152,47 +164,70 @@ public class Lixeira implements Runnable {
 	    }
 
 	   public static void main(String[] args) throws Exception {
-               Random ran = new Random();
-               int val = 0;
-               int novo = 0;
-               
-	        String mensagem = "Cuidado, tem uma mensagem com dois trojans montados em cima dela.";
-		byte[] pegarMensagem =  mensagem.getBytes();
+                Lixeira lixeira = new Lixeira();
+                
+                
+                
+	        Scanner scanner = new Scanner(System.in);
 		int porta = 12345;
 		String ip = "localhost";
-		
+		String mensagem = null;
+                String msg = null;
+                DatagramSocket cliente = new DatagramSocket();
+                InetAddress endereçoDeIp = InetAddress.getByName(ip);
+                System.out.println("Lixeira: " +lixeira.getID()+ " criada.");
+                System.out.println("Informe o ID da Lixeira. ");
+                int id = scanner.nextInt();
+                lixeira.setID(id);
+                System.out.println("Informe a capacidade da Lixeira. ");
+                double capacidade = 0;
+                capacidade = scanner.nextDouble();
+                lixeira.setCapacidade(capacidade);
+                System.out.println("Capacidade da Lixeira: " + lixeira.getCapacidade());
 		//acessa o servidor através de um broadCast(?), à medida em que recebe um datagram do servidor. Disso ele extrae o IP dele.
-		try {
-                        novo = ran.nextInt(10);
-                        val = val + novo;
-                        
-                        DatagramSocket cliente = new DatagramSocket();
-			InetAddress endereçoDeIp = InetAddress.getByName(ip); 
-			DatagramPacket pacote = new DatagramPacket(pegarMensagem, pegarMensagem.length, endereçoDeIp, porta); 
-			//o pacote precisa de: DataPacket(bufferDaMensagem, Tamanho da mensagem, o endereço de ip, a porta)
-			
-			cliente.send(pacote);
-			//é o que o cliente envia.	
-			
-			//Recebendo resposta do servidor, sim, da para fazer o cliente escutar.
-			byte[] respostaDoServidor= new byte[1024];
-			DatagramPacket recebendo = new DatagramPacket(respostaDoServidor, respostaDoServidor.length, endereçoDeIp, porta);
-			cliente.receive(recebendo);
-			
-			String ipServidor = recebendo.getAddress().toString();
-			System.out.println(ipServidor);
-			//fechar o client
-			cliente.close();
-		}catch(Exception excecao)
-		{
-			System.out.println(excecao.toString());
-		}
-	      }
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
+                
+                    
+                
+		while(true){
+                    try {
+                                    
+                            
+                            double val = 0.0;
+                double novo = 0.0;
+                            msg = String.valueOf(lixeira.encherLixeira(val,novo));
+                            mensagem = msg + "-" + lixeira.ID;
+                            byte[] pegarMensagem =  mensagem.getBytes();
+                            
+                             
+                            DatagramPacket pacote = new DatagramPacket(pegarMensagem, pegarMensagem.length, endereçoDeIp, porta); 
+                            //o pacote precisa de: DataPacket(bufferDaMensagem, Tamanho da mensagem, o endereço de ip, a porta)
 
+                            cliente.send(pacote);
+                            System.out.println("Enviado:" +mensagem+ " para o servidor");
+                            Thread.sleep(500);
+                            
+                            //é o que o cliente envia.	
+
+                            //Recebendo resposta do servidor, sim, da para fazer o cliente escutar.
+    //			byte[] respostaDoServidor= new byte[1024];
+    //			DatagramPacket recebendo = new DatagramPacket(respostaDoServidor, respostaDoServidor.length, endereçoDeIp, porta);
+    //			cliente.receive(recebendo);
+    //			
+    //			String ipServidor = recebendo.getAddress().toString();
+    //			System.out.println(ipServidor);
+    			//fechar o client
+    			
+                    }catch(Exception excecao)
+                    {
+                            System.out.println(excecao.toString());
+                    }
+//                    String scan = scanner.next();                    
+//                if(scan == "Encerrar"){
+//                        cliente.close();
+//                    }
+	      
+           }
+        
+	
+    }
 }

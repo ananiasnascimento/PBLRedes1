@@ -19,6 +19,7 @@ import java.net.SocketTimeoutException;
  * @author Nias
  */
 class Atendente implements Runnable{
+	
     private Socket socket;  
     
     private BufferedReader in;
