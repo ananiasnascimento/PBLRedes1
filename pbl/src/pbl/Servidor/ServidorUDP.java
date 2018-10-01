@@ -34,11 +34,9 @@ public class ServidorUDP {
 			servidor.receive(bufferRecebimento);
 			
 			//Mostra na tela a mensagem
-			String mensagemNaTela = new String(bufferRecebimento.getData());
-//                        String[] msg; Fazer o Split.
-//                        msg = mensagemNaTela.split("-");
-//                        msg[0] ;
-//                        msg[1];
+			String mensagemNaTela = new String(bufferRecebimento.getData());                        
+                        
+                        
 			System.out.println("Recebido quantidade de: " + mensagemNaTela + " da Lixeira");
 			
 //			//Envio de pacote como resposta

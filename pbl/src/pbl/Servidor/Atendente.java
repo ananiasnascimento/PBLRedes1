@@ -21,7 +21,8 @@ import java.net.SocketTimeoutException;
 class Atendente implements Runnable{
 	
     private Socket socket;  
-    
+    private int ID;
+    private double nivel;
     private BufferedReader in;
     private PrintStream out;
     
@@ -36,6 +37,19 @@ class Atendente implements Runnable{
         this.executando = false;
         
         open();
+    }
+    
+    public int getID(){
+	return ID;
+    }
+    public void setID(int iD) {
+	ID = iD;
+    }
+    public double getNivel() {
+	return nivel;
+    }
+    public void setNivel(double nivel) {
+	this.nivel = nivel;
     }
     
     public void open() throws Exception {

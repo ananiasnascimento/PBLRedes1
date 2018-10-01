@@ -40,7 +40,9 @@ public class Caminhao implements Runnable{
     public int getiD() {
     	return ID;
     }
-    
+    public void setID(int iD) {
+		ID = iD;
+    }
     public int getNivel() {
     	return nivel;
     }
@@ -134,8 +136,8 @@ public class Caminhao implements Runnable{
        return executando;
     }
 
-    public void send(int nivelLixeira) {
-       out.println(nivelLixeira);
+    public void send(String mensagem) {
+       out.println(mensagem);
     }
 
 
@@ -161,21 +163,25 @@ public class Caminhao implements Runnable{
 
    public static void main(String[] args) throws Exception {
 
-       System.out.println("Iniciando cliente ...");
+       System.out.println("Iniciando caminhao ...");
 
-       System.out.println("Iniciando conex�o com o servidor ...");
+       System.out.println("Iniciando conexao com o servidor ...");
 
        Caminhao caminhao = new Caminhao("localhost", 2525);
 
-       System.out.println("Conex�oo estabelecida com sucesso ...");
+       System.out.println("Conexao estabelecida com sucesso ...");
 
        caminhao.start();
-
-       Scanner scanner = new Scanner(System.in);
-
+       String mensagem = null;
+       Scanner scanner = new Scanner(System.in);       
+       System.out.println("Informe o ID do Caminhao. ");
+       int id = scanner.nextInt();
+       System.out.println("Caminhao: " +caminhao.getiD()+ " criado.");
+       caminhao.setID(id);
        while (true) {
-           caminhao.send(caminhao.getiD());           
-           caminhao.send(caminhao.getNivel());
+           mensagem = caminhao.getiD() + "-" + caminhao.getNivel();
+           caminhao.send(mensagem);           
+           System.out.println("Enviado:" +mensagem+ " para o servidor");
            
            if (!caminhao.isExecutando()) {
                 break;
@@ -185,7 +191,7 @@ public class Caminhao implements Runnable{
           
        }
 
-       System.out.println("Encerrando cliente ...");
+       System.out.println("Encerrando caminhao ...");
 
        caminhao.stop();
 
